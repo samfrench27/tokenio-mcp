@@ -1,6 +1,6 @@
-# Token.io Payment Link Generator for Claude AI
+# Token.io MCP Server for Claude AI
 
-A Model Context Protocol (MCP) server that enables Claude AI to generate payment links and retrieve bank information through the Token.io API.
+A Model Context Protocol (MCP) server that enables Claude AI to interact with Token.io banking APIs. This server allows Claude to perform various financial operations through natural language requests.
 
 ## Author
 
@@ -12,29 +12,34 @@ This project is released under the MIT License. See the LICENSE file for details
 
 ## Features
 
-- **Payment Link Generation**: Generate payment links for GBP or EUR currencies through natural language requests
 - **Bank Information Retrieval**: Look up banks by name, country, or payment network support
+- **Payment Link Generation**: Generate payment links for GBP or EUR currencies
+- **Banking Data Access**: Access account information, balances, and transactions (extensible)
 - **Claude AI Integration**: Seamless integration with Claude AI through the Model Context Protocol
 - **Secure API Integration**: Uses the Token.io sandbox environment for safe testing
 
 ## How It Works
 
-This project creates a bridge between Claude AI and the Token.io payment API using the Model Context Protocol (MCP). When you ask Claude to generate a payment link, it:
+This project creates a bridge between Claude AI and the Token.io banking API using the Model Context Protocol (MCP). When you interact with Claude, it can:
 
-1. Recognizes your intent to create a payment link
-2. Extracts parameters like currency, amount, and description from your request
-3. Calls the Token.io API through the MCP server
-4. Returns a payment link that can be used to complete the transaction
+1. Recognize your intent to perform a banking operation
+2. Extract relevant parameters from your request
+3. Call the appropriate Token.io API through the MCP server
+4. Return useful financial information or generate links
 
 ## Example Conversations
-
-**User**: "Create a payment link for £50 that redirects to my website after completion"
-
-**Claude**: "I'll create a payment link for you. Here's your payment link: https://app.sandbox.token.io/session/[token-id]"
 
 **User**: "Show me banks in the UK that support faster payments"
 
 **Claude**: "Here are banks in the UK that support faster payments: [list of banks]"
+
+**User**: "Create a payment link for £50 that redirects to my website after completion"
+
+**Claude**: "I've created a payment link for you. Here it is: https://app.sandbox.token.io/session/[token-id]"
+
+**User**: "What information can you give me about Barclays Bank?"
+
+**Claude**: "Here's the information about Barclays Bank: [bank details]"
 
 ## Technical Implementation
 
@@ -47,7 +52,7 @@ The server is built using:
 
 The architecture consists of:
 
-- **mcp_server.js**: Defines the tools and their functionality (payment link generation, bank lookup)
+- **mcp_server.js**: Defines the tools and their functionality
 - **mcp_index.js**: Sets up the stdio transport to connect with Claude
 
 ## Setup
@@ -62,8 +67,8 @@ The architecture consists of:
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/samfrench/tokenio-payment-link-generator.git
-cd tokenio-payment-link-generator
+git clone https://github.com/samfrench/tokenio-mcp.git
+cd tokenio-mcp
 ```
 
 2. Install dependencies:
@@ -92,22 +97,32 @@ To use this MCP server with Claude Desktop:
     "tokenio": {
       "command": "node",
       "args": [
-        "/path/to/tokenio-payment-link-generator/mcp_index.js"
+        "/path/to/tokenio-mcp/mcp_index.js"
       ]
     }
   }
 }
 ```
 
-Replace `/path/to/tokenio-payment-link-generator` with the actual path to this project on your system.
+Replace `/path/to/tokenio-mcp` with the actual path to this project on your system.
 
 ## Available Tools
 
-The MCP server exposes these tools:
+The MCP server currently exposes these tools:
 
 - `tokenio-get-banks`: Get a list of banks with optional filtering
 - `tokenio-get-bank-details`: Get detailed information about a specific bank
 - `tokenio-create-payment-link`: Generate a payment link for a specific amount and currency
+
+The architecture is designed to be extensible, allowing additional Token.io functionality to be added as needed.
+
+## Extensibility
+
+The MCP server is designed with extensibility in mind. Additional banking operations can be added to the server by:
+
+1. Implementing new API functions in the tokenio.js module
+2. Adding new tool definitions in the mcp_server.js file
+3. Registering the tools with the MCP server
 
 ## Disclaimer
 
