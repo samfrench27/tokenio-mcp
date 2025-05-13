@@ -14,7 +14,7 @@ This project is released under the MIT License. See the LICENSE file for details
 
 - **Bank Information Retrieval**: Look up banks by name, country, or payment network support
 - **Payment Link Generation**: Generate payment links for GBP or EUR currencies
-- **Banking Data Access**: Access account information, balances, and transactions (extensible)
+- **Account Information Services (AIS)**: Access account information, balances, and transactions with user consent
 - **Claude AI Integration**: Seamless integration with Claude AI through the Model Context Protocol
 - **Secure API Integration**: Uses the Token.io sandbox environment for safe testing
 
@@ -37,9 +37,22 @@ This project creates a bridge between Claude AI and the Token.io banking API usi
 
 **Claude**: "I've created a payment link for you. Here it is: https://app.sandbox.token.io/session/[token-id]"
 
-**User**: "What information can you give me about Barclays Bank?"
+**User**: "Connect to my Barclays bank account to view my transactions"
 
-**Claude**: "Here's the information about Barclays Bank: [bank details]"
+**Claude**: "I'll help you connect to your Barclays account. Please follow this link to authorize access: [authorization URL]"
+
+**User**: "Show me my latest transactions from my connected bank account"
+
+**Claude**: "Here are your recent transactions: [transaction data]"
+
+## Account Information Services (AIS) Flow
+
+The AIS functionality follows this flow:
+
+1. **Create Token Request**: Initiate a request to access account information
+2. **Bank Authorization**: Generate a URL for the user to authenticate with their bank
+3. **Retrieve Access Token**: Obtain an access token after successful authorization
+4. **Access Account Data**: Use the token to fetch accounts, balances, and transactions
 
 ## Technical Implementation
 
@@ -67,7 +80,7 @@ The architecture consists of:
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/samfrench/tokenio-mcp.git
+git clone https://github.com/samfrench27/tokenio-mcp.git
 cd tokenio-mcp
 ```
 
@@ -110,9 +123,20 @@ Replace `/path/to/tokenio-mcp` with the actual path to this project on your syst
 
 The MCP server currently exposes these tools:
 
+### Bank Information
 - `tokenio-get-banks`: Get a list of banks with optional filtering
 - `tokenio-get-bank-details`: Get detailed information about a specific bank
+
+### Payments
 - `tokenio-create-payment-link`: Generate a payment link for a specific amount and currency
+
+### Account Information Services (AIS)
+- `tokenio-create-ais-token-request`: Create an AIS token request for accessing accounts
+- `tokenio-initiate-bank-authorization`: Initiate the bank authorization process
+- `tokenio-get-token-request-result`: Get the access token after authorization
+- `tokenio-get-accounts`: Retrieve all linked bank accounts
+- `tokenio-get-account-balance`: Get balance information for a specific account
+- `tokenio-get-account-transactions`: Get transaction history for a specific account
 
 The architecture is designed to be extensible, allowing additional Token.io functionality to be added as needed.
 
